@@ -110,12 +110,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Confirmation</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p id="sorry-message">Sorry!!! You didn't book any ticket.</p>
                         <p id="thank-message">Thank You For Confirming The Ticket!!!</p>
-                        <p>Your Total Cost is $<span id="modal-show">0</span>.</p>
+                        <p>First Class Ticket - <span id="modal-first-class">0</span><br> Economy Ticket - <span id="modal-economy">0</span><br>Your Total Cost is $<span id="modal-show">0</span>.
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button onclick="refreshValue()" type="button" class="btn btn-primary">OK</button>
@@ -176,12 +176,16 @@
                 getDisplayShow(true, 'confirm-from');
                 getDisplayShow(true, 'thank-message');
                 getDisplayShow(false, 'sorry-message');
+                document.getElementById('modal-first-class').innerText = document.getElementById('first-class-input').value;
+                document.getElementById('modal-economy').innerText = document.getElementById('economy-input').value;
                 document.getElementById('modal-show').innerText = document.getElementById('total').innerText;
             }
             else {
                 getDisplayShow(true, 'confirm-from');
                 getDisplayShow(false, 'thank-message');
                 getDisplayShow(true, 'sorry-message');
+                document.getElementById('modal-first-class').innerText = document.getElementById('first-class-input').value;
+                document.getElementById('modal-economy').innerText = document.getElementById('economy-input').value;
                 document.getElementById('modal-show').innerText = document.getElementById('total').innerText;
             }
         }
