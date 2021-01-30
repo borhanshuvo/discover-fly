@@ -56,9 +56,9 @@
                     <input id="first-class-input" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="mt-4">
-                    <button onclick="handelTicketCalculation('first', true)" class="btn btn-default"><i
+                    <button onclick="handelTicketCalculation('first-class', true)" class="btn btn-default"><i
                             class="fas fa-plus"></i></button>
-                    <button onclick="handelTicketCalculation('first', false)" class="btn btn-default"><i
+                    <button onclick="handelTicketCalculation('first-class', false)" class="btn btn-default"><i
                             class="fas fa-minus"></i></button>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input id="economy-class-input" class="inp-style inp-width" type="number" name="" value="0">
+                    <input id="economy-input" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="mt-4">
                     <button onclick="handelTicketCalculation('economy', true)" class="btn btn-default"><i
@@ -105,8 +105,22 @@
             </div>
             <button onclick="confirm()" class="btn-style">Book Now</button>
         </div>
-        <div id="confirm-from" class="booking-form">
-            
+        <div id="confirm-from" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Thank You For Confirming The Ticket!!!</p>
+                        <p>Your Total Cost is $<span id="modal-show">0</span>.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="refreshValue()" type="button" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="booking-content">
@@ -116,45 +130,59 @@
                 voluptatibus quam</p>
         </div>
     </main>
-        <script>
-            function handelTicketCalculation(ticket, isIncrease) {
-                const ticketCount = getInputValue(ticket);
-                let ticketNewCount = ticketCount;
-                if (isIncrease == true) {
-                    ticketNewCount = ticketCount + 1;
-                }
-                if (isIncrease == false && ticketCount > 0) {
-                    ticketNewCount = ticketCount - 1;
-                }
-                document.getElementById(ticket + '-class-input').value = ticketNewCount;
-                calculateTotal();
+    <script>
+        // for ticket count
+        function handelTicketCalculation(ticket, isIncrease) {
+            const ticketCount = getInputValue(ticket);
+            let ticketNewCount = ticketCount;
+            if (isIncrease == true) {
+                ticketNewCount = ticketCount + 1;
             }
-
-            // for calculate the total cost
-            function calculateTotal() {
-                const firstClassTicketCount = getInputValue('first');
-                const economyClassTicketCount = getInputValue('economy');
-
-                const totalPrice = firstClassTicketCount * 150 + economyClassTicketCount * 100;
-                document.getElementById('sub-total').innerText = totalPrice;
-
-                const vat = Math.round(totalPrice * 0.1);
-                document.getElementById('vat').innerText = vat;
-
-                const grandTotal = totalPrice + vat;
-                document.getElementById('total').innerText = grandTotal;
+            if (isIncrease == false && ticketCount > 0) {
+                ticketNewCount = ticketCount - 1;
             }
-            function getInputValue(ticket) {
-                const ticketInput = document.getElementById(ticket + "-class-input");
-                const ticketCount = parseInt(ticketInput.value);
-                return ticketCount;
-            }
-            function confirm() {
-                document.getElementById("booking-from").style.display="none";
-                document.getElementById("confirm-from").style.display="block";
-            }
-        </script>
-        <!--Thank You-->
+            document.getElementById(ticket + '-input').value = ticketNewCount;
+            calculateTotal();
+        }
+
+        // for calculate the total cost
+        function calculateTotal() {
+            const firstClassTicketCount = getInputValue('first-class');
+            const economyClassTicketCount = getInputValue('economy');
+
+            const totalPrice = firstClassTicketCount * 150 + economyClassTicketCount * 100;
+            document.getElementById('sub-total').innerText = totalPrice;
+
+            const vat = Math.round(totalPrice * 0.1);
+            document.getElementById('vat').innerText = vat;
+
+            grandTotal = totalPrice + vat;
+            document.getElementById('total').innerText = grandTotal;
+        }
+
+        // for get the input value
+        function getInputValue(ticket) {
+            const ticketInput = document.getElementById(ticket + "-input");
+            const ticketCount = parseInt(ticketInput.value);
+            return ticketCount;
+        }
+
+        // for confirmation message
+        function confirm() {
+            document.getElementById("confirm-from").style.display = "block";
+            document.getElementById('modal-show').innerText = document.getElementById('total').innerText;
+        }
+
+        // for refresh input value
+        function refreshValue() {
+            const defalut = 0;
+            document.getElementById('first-class-input').value = defalut;
+            document.getElementById('economy-input').value = defalut;
+            calculateTotal();
+            document.getElementById("confirm-from").style.display = "none";
+        }
+    </script>
+    <!--Thank You-->
 </body>
 
 </html>
