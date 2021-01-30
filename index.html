@@ -113,7 +113,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Thank You For Confirming The Ticket!!!</p>
+                        <p id="sorry-message">Sorry!!! You didn't book any ticket.</p>
+                        <p id="thank-message">Thank You For Confirming The Ticket!!!</p>
                         <p>Your Total Cost is $<span id="modal-show">0</span>.</p>
                     </div>
                     <div class="modal-footer">
@@ -169,8 +170,20 @@
 
         // for confirmation message
         function confirm() {
-            document.getElementById("confirm-from").style.display = "block";
-            document.getElementById('modal-show').innerText = document.getElementById('total').innerText;
+            const firstClassTicketCount = getInputValue('first-class');
+            const economyClassTicketCount = getInputValue('economy');
+            if (firstClassTicketCount != 0 || economyClassTicketCount != 0){
+                getDisplay(true,'confirm-from');
+                getDisplay(true,'thank-message');
+                getDisplay(false,'sorry-message');
+                document.getElementById('modal-show').innerText = document.getElementById('total').innerText;
+            }
+            else{
+                getDisplay(true,'confirm-from');
+                getDisplay(false,'thank-message');
+                getDisplay(true,'sorry-message');
+                document.getElementById('modal-show').innerText = document.getElementById('total').innerText;
+            }
         }
 
         // for refresh input value
@@ -179,7 +192,17 @@
             document.getElementById('first-class-input').value = defalut;
             document.getElementById('economy-input').value = defalut;
             calculateTotal();
-            document.getElementById("confirm-from").style.display = "none";
+            getDisplay(false,'confirm-from');
+        }
+
+        //for get the display style
+        function getDisplay(isWant,id){
+            if(isWant == true){
+                document.getElementById(id).style.display="block";
+            }
+            if(isWant == false){
+                document.getElementById(id).style.display="none";
+            }
         }
     </script>
     <!--Thank You-->
